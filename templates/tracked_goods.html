@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}ЛК{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="my-4">Список отслеживаемых цен товаров пользователя</h1>
+    </div>
+    <div class="col-4 col-lg-2">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link {% if request.base_url~request.path[1:] == url_for('user_cabinet', user_id=user.id) %}active{% endif %}" href="{{ url_for('user_cabinet', user_id=user.id) }}">Товары к отслеживанию</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if request.base_url~request.path[1:] == url_for('user_tasks', user_id=user.id) %}active{% endif %}" href="{{ url_for('user_tasks', user_id=user.id) }}">Мои задачи</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if request.base_url~request.path[1:] == url_for('user_tracked_goods', user_id=user.id) %}active{% endif %}" href="{{ url_for('user_tracked_goods', user_id=user.id) }}">Отслеживаемые товары</a>
+      </li>
+    </ul>
+  </div>
+    <div class="col-8 mr-lg-3">
+    {% if tracked_goods %}
+      <h3 class="mb-3">Пользователь: {{ user.username }}</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Товар</th>
+          <th scope="col">Артикул</th>
+          <th scope="col">Цена</th>
+          <th scope="col">Дата</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for good in tracked_goods %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td>{{ good.t_goods }}</td>
+          <td>{{ good.t_goods.grade }}</td>
+          <td>{{ good.price }} &#8381;</td>
+          <td>{{ good.date_field.strftime('%Y-%m-%d %H:%M') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="my-5">У вас еще нет результатов цен по товарам. <span class="mr-5"><a href="{{ url_for('user_tasks', user_id=user.id) }}" class="btn btn-outline-primary px-5">К списку задач</a></span></p>
+    {% endif %}
+  </div>
+  </div>
+</div>
+{% endblock content %}

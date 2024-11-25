@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}ЛК{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="my-4">Товары к отслеживанию</h1>
+    </div>
+    <div class="col-4 col-lg-2">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link active" href="{{ url_for('user_cabinet', user_id=user.id) }}">Товары к отслеживанию</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('user_tasks', user_id=user.id) }}">Мои задачи</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('user_tracked_goods', user_id=user.id) }}">Отслеживаемые товары</a>
+      </li>
+    </ul>
+  </div>
+    <div class="col-8 col-lg-6 mr-lg-3">
+    {% if goods %}
+      <h3 class="mb-3">Пользователь: {{ user.username }}</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Название</th>
+          <th scope="col">Артикул</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in goods %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td>{{ item.name }}</td>
+          <td>{{ item.grade }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+      <p class="mr-5"><a href="{{ url_for('new_goods', user_id=user.id) }}" class="btn btn-outline-primary px-3">Добавить товар</a></p>
+    {% else %}
+      <h3 class="mb-3">Пользователь: {{ user.username }}</h3>
+      <p class="my-5">У вас еще не добавлены товары к отслеживанию. <span class="mr-5"><a href="{{ url_for('new_goods', user_id=user.id) }}" class="btn btn-outline-primary px-3">Добавить товар</a></span></p>
+    {% endif %}
+  </div>
+  </div>
+</div>
+{% endblock content %}

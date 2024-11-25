@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Войти{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="my-4">Вход для пользователей</h1>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 mx-auto">
+      {% if user %}
+        <p class="mb-5">Вы авторизованы как пользователь с логином: {{ user.username }}</p>
+      <a href="{{ url_for('user_cabinet', user_id=user.id) }}">В личный кабинет</a>
+      {% else %}
+      <form class="mt-3 mb-5" action="" method="post">
+        <!-- Email input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="email">Email</label>
+          <input type="email" name="email" id="email" class="form-control" placeholder="введите email" required/>
+        </div>
+
+        <!-- Password input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="password">Пароль</label>
+          <input type="password" name="password" id="password" class="form-control" placeholder="введите пароль" required/>
+        </div>
+        <!-- Submit button -->
+        <button  type="submit" class="btn btn-primary btn-block mb-4">Войти</button>
+
+        <!-- Register buttons -->
+        <div class="text-center">
+          <h5>Не зарегистрирован? <a href="{{ url_for('register_user') }}">Регистрация</a></h5>
+
+        </div>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

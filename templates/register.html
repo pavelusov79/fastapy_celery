@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="my-4">Регистрация пользователей</h1>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 mx-auto">
+      <form class="mt-3 mb-5" action="" method="post">
+        <!-- Username input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="username">Логин на портале</label>
+          <input type="text" name="username" id="username" class="form-control" placeholder="введите логин" required/>
+        </div>
+        <!-- Email input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="email">Email</label>
+          <input type="email" name="email" id="email" class="form-control" placeholder="введите email" required/>
+        </div>
+
+        <!-- Password input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="password">Пароль</label>
+          <input type="password" name="password" id="password" class="form-control" placeholder="введите пароль" required/>
+        </div>
+
+
+        <!-- Submit button -->
+        <button  type="submit" class="btn btn-primary btn-block mb-4">Зарегистрироваться</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

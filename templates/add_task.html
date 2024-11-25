@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Добавить задачу{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="my-4">Добавление задачи</h1>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 mx-auto">
+      <form class="mt-3 mb-5" action="" method="post">
+        <!-- goods' name input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="goods">Наименование товара</label>
+          <select id="goods" name="goods" class="form-select" required>
+            <option selected>-----------------</option>
+            {% for item in goods %}
+              <option value="{{ item.id }}">{{ item.name }} (артикул {{ item.grade }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <!-- interval select -->
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="interval">Интервал парсинга</label>
+          <select id="interval" name="interval" class="form-select" required>
+            <option value="TEST">тест 30 сек</option>
+            <option value="HOUR">1 час</option>
+            <option value="TWELVE_H">12 часов</option>
+            <option value="TWENTY_FOUR_H">24 часа</option>
+          </select>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="parse_till_date">Окончание задачи</label>
+          <input type="datetime-local" name="parse_till_date" id="parse_till_date" class="form-control" placeholder="введите дату окончания задачи" required/>
+        </div>
+        <!-- Submit button -->
+        <button  type="submit" class="btn btn-primary btn-block mb-4">Добавить</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}ЛК{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="my-4">Список задач по отслеживанию цен товаров в таблице</h1>
+    </div>
+    <div class="col-4 col-lg-2">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link {% if request.base_url~request.path[1:] == url_for('user_cabinet', user_id=user.id) %}active{% endif %}" href="{{ url_for('user_cabinet', user_id=user.id) }}">Товары к отслеживанию</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if request.base_url~request.path[1:] == url_for('user_tasks', user_id=user.id) %}active{% endif %}" href="{{ url_for('user_tasks', user_id=user.id) }}">Мои задачи</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if request.base_url~request.path[1:] == url_for('user_tracked_goods', user_id=user.id) %}active{% endif %}" href="{{ url_for('user_tracked_goods', user_id=user.id) }}">Отслеживаемые товары</a>
+      </li>
+    </ul>
+  </div>
+    <div class="col-8 mr-lg-3">
+    {% if tasks %}
+      <h3 class="mb-3">Пользователь: {{ user.username }}</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Товар</th>
+          <th scope="col">Интервал парсинга</th>
+          <th scope="col">Начало задачи</th>
+          <th scope="col">Конец задачи</th>
+          <th scope="col">Статус задачи</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td>{{ task.goods }} (арт. {{ task.goods.grade }})</td>
+          <td>{% if task.set_interval.value == 3600 %}1 час{% elif task.set_interval.value == 3600 * 12 %}12 часов
+            {% elif task.set_interval.value == 3600 * 24 %}24 часа{% else %}тест 30 сек{% endif %}</td>
+          <td>{{ task.start_date.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>{{ task.parse_till_date.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>{% if task.is_active %}активная{% else %}неактивная{% endif %}</td>
+          <td><a href="{{ url_for('edit_task', user_id=user.id, task_id=task.id) }}" class="btn btn-outline-clear"
+                 style="padding-top: 0; font-weight: bold; color: #198754;">Редактировать</a>
+          </td>
+          <td><a href="{{ url_for('delete_task', user_id=user.id, task_id=task.id) }}" class="btn btn-outline-clear"
+                 style="padding-top: 0; font-weight: bold; color: #0d6efd;">Удалить</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+      <p class="my-5"><a href="{{ url_for('add_task', user_id=user.id) }}" class="btn btn-outline-primary px-5">Добавить задачу</a></p>
+    {% else %}
+      <p class="my-5">Вы еще не добавили ни одной задачи. <span class="mr-5"><a href="{{ url_for('add_task', user_id=user.id) }}" class="btn btn-outline-primary px-5">Добавить задачу</a></span></p>
+    {% endif %}
+  </div>
+  </div>
+</div>
+{% endblock content %}

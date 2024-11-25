@@ -1,0 +1,29 @@
+body, html {
+	font-family: 'Lora', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+	font-size: 1.07rem;
+}
+
+body {
+    height: 100%;
+}
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    flex: 1 1 auto;
+}
+
+.copyright {
+    color: #fff;
+}
+
+.nav-link.active {
+    border-bottom: 1.5px solid;
+    font-weight: 600;
+}

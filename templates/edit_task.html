@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Редактировать задачу{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="my-4">Редактирование задачи id: {{ task.id }}</h1>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 mx-auto">
+      <form class="mt-3 mb-5" action="{{ url_for('update_task', user_id=user.id, task_id=task.id) }}" method="post">
+        <!-- goods' name input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="goods">Наименование товара</label>
+          <select id="goods" name="goods" class="form-select" required>
+            {% for item in goods %}
+            {% if item == task.goods %}
+              <option value="{{ item.id }}" selected>{{ item.name }} (артикул {{ item.grade }})</option>
+            {% else %}
+              <option value="{{ item.id }}">{{ item.name }} (артикул {{ item.grade }})</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <!-- interval select -->
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="interval">Интервал парсинга</label>
+          <select id="interval" name="interval" class="form-select" required>
+            <option value="TEST" {% if task.set_interval.value == 30 %}selected{% endif %}>тест 30 сек</option>
+            <option value="HOUR" {% if task.set_interval.value == 3600 %}selected{% endif %}>1 час</option>
+            <option value="TWELVE_H" {% if task.set_interval.value == 3600 * 12 %}selected{% endif %}>12 часов</option>
+            <option value="TWENTY_FOUR_H" {% if task.set_interval.value == 3600 * 24 %}selected{% endif %}>24 часа</option>
+          </select>
+        </div>
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="start_date">Начало задачи</label>
+          <input type="datetime-local" name="start_date" id="start_date" class="form-control" value="{{ task.start_date.strftime('%Y-%m-%dT%H:%M') }}" required/>
+        </div>
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="parse_till_date">Окончание задачи</label>
+          <input type="datetime-local" name="parse_till_date" id="parse_till_date" class="form-control" value="{{ task.parse_till_date.strftime('%Y-%m-%dT%H:%M') }}" required/>
+        </div>
+        <div data-mdb-input-init class="form-outline mb-4">
+          {% if task.is_active %}
+          <input type="checkbox" name="is_active" checked="checked" style="margin-right: 10px;"/>
+          {% else %}
+          <input type="checkbox" name="is_active" style="margin-right: 10px;"/>
+          {% endif %}
+          <span class="ml-3">Задача запущена</span>
+        </div>
+        <!-- Submit button -->
+        <button  type="submit" class="btn btn-primary btn-block mb-4">Редактировать</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

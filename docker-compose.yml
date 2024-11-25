@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  db-postgres:
+    image: postgres:latest
+    container_name: db_fastapi
+    restart: always
+    ports:
+      - "5435:5432"
+    env_file:
+      - .env-non-dev
+
+  redis:
+    image: redis:latest
+    container_name: fastapi_redis
+    command: --port 6379
+    expose:
+      - 6379
+
+  app:
+    build:
+      context: .
+    env_file:
+      - .env-non-dev
+    container_name: fastapi_app
+    command: ["/app/docker_scripts/app.sh"]
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db-postgres
+      - redis
+
+  celery:
+    build:
+      context: .
+    env_file:
+      - .env-non-dev
+    container_name: celery_app
+    command: ["celery", "-A", "tasks.tasks.celery", "worker", "-l", "INFO"]
+    depends_on:
+      - redis
+
