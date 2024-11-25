@@ -13,7 +13,7 @@
 
 
 Стэк:
-- fastapy,
+- fastapi,
 - fastapi-users,
 - jinja 2,
 - celery,
